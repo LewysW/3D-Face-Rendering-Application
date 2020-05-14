@@ -157,8 +157,7 @@ public class Rendering extends JPanel {
         if (mainFrame) {
             //If no points have been plotted
             if (points.isEmpty()) {
-                //clear display and draw set of triangle
-                clearDisplay(g);
+                //clear display and draw triangle
                 displayTriangle(graphics2D, trianglePoints, triangleLabels);
                 return;
             }
@@ -196,13 +195,13 @@ public class Rendering extends JPanel {
     }
 
     private void labelPoints(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
-        graphics2D.drawString(labels.get(0), (int) points.get(0).getX() - 50, (int) points.get(0).getY());
-        graphics2D.drawString(labels.get(1), (int) points.get(1).getX() - 50, (int) points.get(1).getY());
+        graphics2D.drawString(labels.get(0), (int) points.get(0).getX() - 20, (int) points.get(0).getY() - 5);
+        graphics2D.drawString(labels.get(1), (int) points.get(1).getX() - 45, (int) points.get(1).getY());
         graphics2D.drawString(labels.get(2), (int) points.get(2).getX() + 5, (int) points.get(2).getY());
     }
 
     private void displayTriangle(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
-        plotPoints(graphics2D, points);
+        //plotPoints(graphics2D, points);
         labelPoints(graphics2D, points, labels);
         drawEdges(graphics2D, points);
     }
