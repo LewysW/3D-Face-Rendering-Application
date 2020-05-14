@@ -25,6 +25,9 @@ public class Rendering extends JPanel {
     //Panel to place buttons and checkboxes on
     private JPanel panel;
 
+    //Is the main frame
+    private boolean mainFrame = false;
+
     //Button to draw the render on the display
     private JButton render = new JButton("Render");
 
@@ -37,6 +40,7 @@ public class Rendering extends JPanel {
     public static void main(String[] args) {
         Rendering display = new Rendering();
         display.frame = new JFrame();
+        display.mainFrame = true;
 
         //Initialise panel to place buttons on
         display.panel = new JPanel();
@@ -149,17 +153,20 @@ public class Rendering extends JPanel {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
-        //If no points have been plotted
-        if (points.isEmpty()) {
-            //clear display and draw set of triangle
-            clearDisplay(g);
+        //If JFrame is the main frame
+        if (mainFrame) {
+            //If no points have been plotted
+            if (points.isEmpty()) {
+                //clear display and draw set of triangle
+                clearDisplay(g);
+                displayTriangle(graphics2D, trianglePoints, triangleLabels);
+                return;
+            }
+
+
             displayTriangle(graphics2D, trianglePoints, triangleLabels);
-            return;
+            plotPoints(graphics2D, points);
         }
-
-
-        displayTriangle(graphics2D, trianglePoints, triangleLabels);
-        plotPoints(graphics2D, points);
     }
 
     private boolean isWithinTriangle(ArrayList<Point2D> trianglePoints, Point2D point) {
