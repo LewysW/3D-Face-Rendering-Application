@@ -33,6 +33,7 @@ public class Rendering extends JPanel {
 
     static Rendering faceRendering;
 
+    //TODO - do not draw triangle or let user plot points frame to display face
     public static void main(String[] args) {
         Rendering display = new Rendering();
         display.frame = new JFrame();
@@ -99,9 +100,13 @@ public class Rendering extends JPanel {
             // override only those which interests us
             @Override //I override only one method for presentation
             public void mousePressed(MouseEvent e) {
-                points.clear();
-                points.add(new Point(e.getX(), e.getY()));
-                repaint();
+                //If point lies within triangle, clear display and plot it
+                Point2D point = new Point2D.Double(e.getX(), e.getY());
+                if (isWithinTriangle(trianglePoints, point)) {
+                    points.clear();
+                    points.add(point);
+                    repaint();
+                }
             }
         });
 
@@ -155,6 +160,32 @@ public class Rendering extends JPanel {
 
         displayTriangle(graphics2D, trianglePoints, triangleLabels);
         plotPoints(graphics2D, points);
+    }
+
+    private boolean isWithinTriangle(ArrayList<Point2D> trianglePoints, Point2D point) {
+        double p0x = trianglePoints.get(0).getX();
+        double p0y = trianglePoints.get(0).getY();
+
+        double p1x = trianglePoints.get(1).getX();
+        double p1y = trianglePoints.get(1).getY();
+
+        double p2x = trianglePoints.get(2).getX();
+        double p2y = trianglePoints.get(2).getY();
+
+        double px = point.getX();
+        double py = point.getY();
+
+        //Citation:
+        //Find if point is within triangle:
+        //https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+
+        double area = 0.5 *(-p1y*p2x + p0y*(-p1x + p2x) + p0x*(p1y - p2y) + p1x*p2y);
+        double s = 1/(2*area)*(p0y*p2x - p0x*p2y + (p2y - p0y)*px + (p0x - p2x)*py);
+        double t = 1/(2*area)*(p0x*p1y - p0y*p1x + (p0y - p1y)*px + (p1x - p0x)*py);
+
+        return (s > 0) && (t > 0) && (1 - s - t > 0);
+
+        //End citation
     }
 
     private void labelPoints(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
