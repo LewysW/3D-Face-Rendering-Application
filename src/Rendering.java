@@ -31,12 +31,25 @@ public class Rendering extends JPanel {
     //Button to draw the render on the display
     private JButton render = new JButton("Render");
 
+    //Radio buttons to select the shading method
     static JRadioButton flat = new JRadioButton("Flat");
     static JRadioButton gouraud = new JRadioButton("Gouraud");
 
-    static Rendering faceRendering;
+    //Radio buttons to select the perspective
+    static JRadioButton orthographic = new JRadioButton("Orthographic");
+    static JRadioButton perspective = new JRadioButton("Perspective");
 
-    //TODO - do not draw triangle or let user plot points frame to display face
+    static Rendering faceRendering;
+    static ArrayList<Face> faces;
+
+    static String meshFile = "data/mesh.csv";
+    static String shEVFile = "data/sh_ev.csv";
+    static String txEVFile = "data/tx_ev.csv";
+    static String faceFile0 = "000";
+    static String faceFile1 = "001";
+    static String faceFile2 = "002";
+    static String faceFile3 = "003";
+
     public static void main(String[] args) {
         Rendering display = new Rendering();
         display.frame = new JFrame();
@@ -49,13 +62,29 @@ public class Rendering extends JPanel {
         //Add buttons to panel
         display.panel.add(display.render);
 
-        //Adds radio buttons to JPanel
+        //Shading label
+        JLabel shadingLabel = new JLabel("Shading:");
+        display.panel.add(shadingLabel);
+
+        //Adds radio buttons to JPanel to select shading
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(flat);
         buttonGroup.add(gouraud);
         display.panel.add(flat);
         display.panel.add(gouraud);
         flat.setSelected(true);
+
+        //Projection label
+        JLabel projectionLabel = new JLabel("Projection:");
+        display.panel.add(projectionLabel);
+
+        //Adds radio buttons to JPanel to select shading
+        ButtonGroup buttonGroup1 = new ButtonGroup();
+        buttonGroup1.add(orthographic);
+        buttonGroup1.add(perspective);
+        display.panel.add(orthographic);
+        display.panel.add(perspective);
+        orthographic.setSelected(true);
 
         //Specifies layout of frame
         display.frame.setTitle("3D Rendering");
@@ -76,9 +105,17 @@ public class Rendering extends JPanel {
         trianglePoints.add(new Point2D.Double(display.getWidth() - (display.getWidth() / 8.0), display.getHeight() - 20));
 
         //Define labels for corners of triangles
-        triangleLabels.add("Face A");
-        triangleLabels.add("Face B");
-        triangleLabels.add("Face C");
+        triangleLabels.add("Face 1");
+        triangleLabels.add("Face 2");
+        triangleLabels.add("Face 3");
+
+        //Parser to parse files
+        FaceFileParser faceFileParser = new FaceFileParser(meshFile, shEVFile, txEVFile, faceFile0);
+
+        //Load the three faces in
+        faces.add(faceFileParser.loadFace(faceFile1));
+        faces.add(faceFileParser.loadFace(faceFile2));
+        faces.add(faceFileParser.loadFace(faceFile3));
 
         //Draws the frame
         display.repaint();
