@@ -3,7 +3,6 @@ import java.awt.event.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
@@ -15,6 +14,12 @@ public class Rendering extends JPanel {
     //Stores the list of points entered by the user
     private ArrayList<Point2D> points = new ArrayList<>();
 
+    //Stores the coordinates of each corner of the triangle
+    static private ArrayList<Point2D> trianglePoints = new ArrayList<>();
+
+    //Stores label for each corner of triangle
+    static private ArrayList<String> triangleLabels = new ArrayList<>();
+
     //JFrame representing the GUI window
     private JFrame frame;
     //Panel to place buttons and checkboxes on
@@ -23,7 +28,6 @@ public class Rendering extends JPanel {
     //Button to draw the render on the display
     private JButton render = new JButton("Render");
 
-    //TODO - replace with radio buttons for flag/gouraud shading
     static JRadioButton flat = new JRadioButton("Flat");
     static JRadioButton gouraud = new JRadioButton("Gouraud");
 
@@ -60,6 +64,16 @@ public class Rendering extends JPanel {
         contentPane.add(display.panel, BorderLayout.LINE_START);
         //Sets frame to visible
         display.frame.setVisible(true);
+
+        //Define points of triangle to display:
+        trianglePoints.add(new Point2D.Double(display.getWidth() / 2.0, 20));
+        trianglePoints.add(new Point2D.Double(display.getWidth() / 8.0, display.getHeight() - 20));
+        trianglePoints.add(new Point2D.Double(display.getWidth() - (display.getWidth() / 8.0), display.getHeight() - 20));
+
+        //Define labels for corners of triangles
+        triangleLabels.add("Face A");
+        triangleLabels.add("Face B");
+        triangleLabels.add("Face C");
 
         //Draws the frame
         display.repaint();
@@ -132,21 +146,48 @@ public class Rendering extends JPanel {
 
         //If no points have been plotted
         if (points.isEmpty()) {
-            //clear display and draw set of axes
+            //clear display and draw set of triangle
             clearDisplay(g);
-            g.setColor(Color.BLACK);
+            displayTriangle(graphics2D, trianglePoints, triangleLabels);
             return;
         }
 
 
-        //Plots points where user has clicked
+        displayTriangle(graphics2D, trianglePoints, triangleLabels);
+        plotPoints(graphics2D, points);
+    }
+
+    private void labelPoints(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
+        graphics2D.drawString(labels.get(0), (int) points.get(0).getX() - 50, (int) points.get(0).getY());
+        graphics2D.drawString(labels.get(1), (int) points.get(1).getX() - 50, (int) points.get(1).getY());
+        graphics2D.drawString(labels.get(2), (int) points.get(2).getX() + 5, (int) points.get(2).getY());
+    }
+
+    private void displayTriangle(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
+        plotPoints(graphics2D, points);
+        labelPoints(graphics2D, points, labels);
+        drawEdges(graphics2D, points);
+    }
+
+    private void plotPoints(Graphics2D graphics2D, ArrayList<Point2D> points) {
         for (Point2D p : points) {
             graphics2D.setColor(Color.BLACK);
             graphics2D.fillOval((int) (p.getX() - 5.0 / 2.0), (int) (p.getY() - 5.0 / 2.0), 5, 5);
         }
+    }
 
-        //Sets colour to black
-        g.setColor(Color.BLACK);
+    private void drawEdges(Graphics2D graphics2D, ArrayList<Point2D> points) {
+        Path2D path = new Path2D.Double();
+
+        //Move to top corner of triangle
+        path.moveTo(points.get(0).getX(), points.get(0).getY());
+
+        //Draw line from top corner to bottom left and bottom right corners
+        path.lineTo(points.get(1).getX(), points.get(1).getY());
+        path.lineTo(points.get(2).getX(), points.get(2).getY());
+        path.lineTo(points.get(0).getX(), points.get(0).getY());
+
+        graphics2D.draw(path);
     }
 
     //Clears the display
