@@ -168,6 +168,7 @@ public class Rendering extends JPanel {
         }
     }
 
+    //Return whether point clicked by user lies within the triangle
     private boolean isWithinTriangle(ArrayList<Point2D> trianglePoints, Point2D point) {
         double p0x = trianglePoints.get(0).getX();
         double p0y = trianglePoints.get(0).getY();
@@ -194,18 +195,21 @@ public class Rendering extends JPanel {
         //End citation
     }
 
+    //Label the points of the triangle
     private void labelPoints(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
         graphics2D.drawString(labels.get(0), (int) points.get(0).getX() - 20, (int) points.get(0).getY() - 5);
         graphics2D.drawString(labels.get(1), (int) points.get(1).getX() - 45, (int) points.get(1).getY());
         graphics2D.drawString(labels.get(2), (int) points.get(2).getX() + 5, (int) points.get(2).getY());
     }
 
+    //Display the triangle
     private void displayTriangle(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
         //plotPoints(graphics2D, points);
         labelPoints(graphics2D, points, labels);
         drawEdges(graphics2D, points);
     }
 
+    //Plot points on the display
     private void plotPoints(Graphics2D graphics2D, ArrayList<Point2D> points) {
         for (Point2D p : points) {
             graphics2D.setColor(Color.BLACK);
@@ -213,6 +217,7 @@ public class Rendering extends JPanel {
         }
     }
 
+    //Draw the edges between the corners of the triangle
     private void drawEdges(Graphics2D graphics2D, ArrayList<Point2D> points) {
         Path2D path = new Path2D.Double();
 
