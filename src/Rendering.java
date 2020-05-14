@@ -20,8 +20,6 @@ public class Rendering extends JPanel {
     //Panel to place buttons and checkboxes on
     private JPanel panel;
 
-    //Button to clear the display
-    private JButton clear = new JButton("Clear");
     //Button to draw the render on the display
     private JButton render = new JButton("Render");
 
@@ -29,45 +27,47 @@ public class Rendering extends JPanel {
     static JRadioButton flat = new JRadioButton("Flat");
     static JRadioButton gouraud = new JRadioButton("Gouraud");
 
+    static Rendering faceRendering;
+
     public static void main(String[] args) {
-        Rendering render = new Rendering();
-        render.frame = new JFrame();
+        Rendering display = new Rendering();
+        display.frame = new JFrame();
 
         //Initialise panel to place buttons on
-        render.panel = new JPanel();
-        render.panel.setLayout(new BoxLayout(render.panel, BoxLayout.PAGE_AXIS));
+        display.panel = new JPanel();
+        display.panel.setLayout(new BoxLayout(display.panel, BoxLayout.PAGE_AXIS));
 
         //Add buttons to panel
-        render.panel.add(render.clear);
-        render.panel.add(render.render);
+        display.panel.add(display.render);
 
         //Adds radio buttons to JPanel
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(flat);
         buttonGroup.add(gouraud);
-        render.panel.add(flat);
-        render.panel.add(gouraud);
+        display.panel.add(flat);
+        display.panel.add(gouraud);
+        flat.setSelected(true);
 
         //Specifies layout of frame
-        render.frame.setTitle("3D Rendering");
-        render.frame.setSize(1280, 720);
-        Container contentPane = render.frame.getContentPane();
-        contentPane.add(render, BorderLayout.CENTER);
+        display.frame.setTitle("3D Rendering");
+        display.frame.setSize(1280, 720);
+        Container contentPane = display.frame.getContentPane();
+        contentPane.add(display, BorderLayout.CENTER);
 
         //Specifies border of panel
-        render.panel.setBorder(BorderFactory.createLineBorder(Color.gray));
+        display.panel.setBorder(BorderFactory.createLineBorder(Color.gray));
         //Adds panel to frame
-        contentPane.add(render.panel, BorderLayout.LINE_START);
+        contentPane.add(display.panel, BorderLayout.LINE_START);
         //Sets frame to visible
-        render.frame.setVisible(true);
+        display.frame.setVisible(true);
 
         //Draws the frame
-        render.repaint();
+        display.repaint();
 
         //Ensures that program exits when window is closed
-        render.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        display.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //Sets resizable to false for the window
-        render.frame.setResizable(false);
+        display.frame.setResizable(false);
     }
 
 
@@ -85,17 +85,42 @@ public class Rendering extends JPanel {
             // override only those which interests us
             @Override //I override only one method for presentation
             public void mousePressed(MouseEvent e) {
+                points.clear();
                 points.add(new Point(e.getX(), e.getY()));
                 repaint();
             }
         });
 
-        //Clears the render and plotted points from the display and repaints
-        clear.addActionListener(new ActionListener() {
+
+        //Action listener for the render button to display the synthetic face
+        render.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                //Removes points from array list points
-                points.clear();
-                repaint();
+                //If a point on the display has been selected
+                if (!points.isEmpty()) {
+                    //Close previous synthetic face if displayed
+                    if (faceRendering != null) {
+                        faceRendering.setVisible(false);
+                        faceRendering.frame.dispose();
+                    }
+
+                    //Create new window to display new synthetic face
+                    faceRendering = new Rendering();
+                    faceRendering.frame = new JFrame();
+                    //Specifies layout of frame
+                    faceRendering.frame.setTitle("Synthetic Face");
+                    faceRendering.frame.setSize(1280, 720);
+                    Container contentPane = faceRendering.frame.getContentPane();
+                    contentPane.add(faceRendering, BorderLayout.CENTER);
+
+                    //Sets frame to visible
+                    faceRendering.frame.setVisible(true);
+
+                    //Draws the frame
+                    faceRendering.repaint();
+
+                    //Sets resizable to false for the window
+                    faceRendering.frame.setResizable(false);
+                }
             }
         });
     }
