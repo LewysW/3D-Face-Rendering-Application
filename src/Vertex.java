@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Vertex {
     double x, y, z;
@@ -14,5 +15,27 @@ public class Vertex {
         this.r = r;
         this.g = g;
         this.b = b;
+    }
+
+    void scale(double displayWidth, double displayHeight) {
+        x /= displayWidth;
+        y /= displayHeight;
+    }
+
+    void centre(double displayWidth, double displayHeight) {
+        double middleX = displayWidth / 2;
+        double middleY = displayHeight / 2;
+
+        x += middleX;
+        y += middleY;
+    }
+
+    void flip() {
+        y = -y;
+    }
+
+    void shift(double shiftX, double shiftY) {
+        x += shiftX;
+        y += shiftY;
     }
 }

@@ -76,9 +76,7 @@ public class Face {
         }
     }
 
-    void display(Graphics2D graphics2D, Shading shading, Projection projection, double focalLength, double width, double height) {
-        System.out.println("Shading: " + shading.name());
-        System.out.println("Projection: " + projection.name());
+    void display(Graphics2D graphics2D, Shading shading, Projection projection, double focalLength, double width, double height, double shiftX, double shiftY, double scale) {
         ArrayList<Triangle> trianglesToDisplay;
 
         if (projection == Projection.PERSPECTIVE) {
@@ -88,8 +86,7 @@ public class Face {
         }
 
         for (Triangle t : trianglesToDisplay) {
-            System.out.println("Drawing triangle!");
-            t.draw(graphics2D, width, height);
+            t.draw(graphics2D, width, height, shading, shiftX, shiftY, scale);
         }
 
         //TODO - let user specify focal length of camera

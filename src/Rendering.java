@@ -17,9 +17,6 @@ public class Rendering extends JPanel {
     //Stores the coordinates of each corner of the triangle
     static private ArrayList<Point2D> trianglePoints = new ArrayList<>();
 
-    //Stores label for each corner of triangle
-    static private ArrayList<String> triangleLabels = new ArrayList<>();
-
     //JFrame representing the GUI window
     private JFrame frame;
     //Panel to place buttons and checkboxes on
@@ -50,6 +47,9 @@ public class Rendering extends JPanel {
     //Synthetic face
     static Face syntheticFace;
 
+    static Shading shading;
+    static Projection projection;
+
     static String meshFile = "data/mesh.csv";
     static String shEVFile = "data/sh_ev.csv";
     static String txEVFile = "data/tx_ev.csv";
@@ -59,6 +59,14 @@ public class Rendering extends JPanel {
     static String faceFile3 = "003";
 
     public static void main(String[] args) {
+        //Parser to parse files
+        FileParser fileParser = new FileParser(meshFile, shEVFile, txEVFile, faceFile0);
+
+        //Load the three faces in
+        faces.add(fileParser.loadFace(faceFile1));
+        faces.add(fileParser.loadFace(faceFile2));
+        faces.add(fileParser.loadFace(faceFile3));
+
         Rendering display = new Rendering();
         display.frame = new JFrame();
         display.mainFrame = true;
@@ -94,6 +102,9 @@ public class Rendering extends JPanel {
         display.panel.add(perspective);
         orthographic.setSelected(true);
 
+        shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
+        projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
+
         //Specifies layout of frame
         display.frame.setTitle("3D Rendering");
         display.frame.setSize(1280, 720);
@@ -108,22 +119,9 @@ public class Rendering extends JPanel {
         display.frame.setVisible(true);
 
         //Define points of triangle to display:
-        trianglePoints.add(new Point2D.Double(display.getWidth() / 2.0, 20));
+        trianglePoints.add(new Point2D.Double(display.getWidth() / 2.0, 200));
         trianglePoints.add(new Point2D.Double(display.getWidth() / 8.0, display.getHeight() - 20));
         trianglePoints.add(new Point2D.Double(display.getWidth() - (display.getWidth() / 8.0), display.getHeight() - 20));
-
-        //Define labels for corners of triangles
-        triangleLabels.add("Face 1");
-        triangleLabels.add("Face 2");
-        triangleLabels.add("Face 3");
-
-        //Parser to parse files
-        FileParser fileParser = new FileParser(meshFile, shEVFile, txEVFile, faceFile0);
-
-        //Load the three faces in
-        faces.add(fileParser.loadFace(faceFile1));
-        faces.add(fileParser.loadFace(faceFile2));
-        faces.add(fileParser.loadFace(faceFile3));
 
         //Draws the frame
         display.repaint();
@@ -151,11 +149,15 @@ public class Rendering extends JPanel {
             public void mousePressed(MouseEvent e) {
                 //If point lies within triangle, clear display and plot it
                 Point2D point = new Point2D.Double(e.getX(), e.getY());
-                if (isWithinTriangle(trianglePoints, point)) {
+                if (mainFrame && isWithinTriangle(trianglePoints, point)) {
                     points.clear();
                     points.add(point);
                     repaint();
                 }
+
+                //Update shading and projection
+                shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
+                projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
             }
         });
 
@@ -203,21 +205,20 @@ public class Rendering extends JPanel {
         if (mainFrame) {
             //If no points have been plotted
             if (points.isEmpty()) {
+                System.out.println("Gets here!");
                 //clear display and draw triangle
-                displayTriangle(graphics2D, trianglePoints, triangleLabels);
+                System.out.println(faces.size());
+                displayTriangle(graphics2D, trianglePoints, faces);
                 return;
             }
 
 
-            displayTriangle(graphics2D, trianglePoints, triangleLabels);
+            displayTriangle(graphics2D, trianglePoints, faces);
             plotPoints(graphics2D, points);
         //If frame is secondary frame
         } else if (syntheticFace != null) {
-            Shading shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
-            Projection projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
-
             System.out.println("Displaying synthetic face!");
-            syntheticFace.display(graphics2D, shading, projection, 0, WIDTH, HEIGHT);
+            syntheticFace.display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, 0, 0, 1);
         }
     }
 
@@ -248,18 +249,12 @@ public class Rendering extends JPanel {
         //End citation
     }
 
-    //Label the points of the triangle
-    private void labelPoints(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
-        graphics2D.drawString(labels.get(0), (int) points.get(0).getX() - 20, (int) points.get(0).getY() - 5);
-        graphics2D.drawString(labels.get(1), (int) points.get(1).getX() - 45, (int) points.get(1).getY());
-        graphics2D.drawString(labels.get(2), (int) points.get(2).getX() + 5, (int) points.get(2).getY());
-    }
-
     //Display the triangle
-    private void displayTriangle(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<String> labels) {
-        //plotPoints(graphics2D, points);
-        labelPoints(graphics2D, points, labels);
+    private void displayTriangle(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<Face> faces) {
+        System.out.println("displayTriangle!");
+        plotPoints(graphics2D, points);
         drawEdges(graphics2D, points);
+        displayFaces(graphics2D, faces);
     }
 
     //Plot points on the display
@@ -285,11 +280,10 @@ public class Rendering extends JPanel {
         graphics2D.draw(path);
     }
 
-    //Clears the display
-    private void clearDisplay(Graphics g) {
-        //Clears points by setting display to the default background colour
-        g.setColor(frame.getBackground());
-        g.fillRect(0, 0, getWidth(), getHeight());
+    private void displayFaces(Graphics2D graphics2D, ArrayList<Face> faces) {
+        faces.get(0).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, -65, -255, 3.1);
+        faces.get(1).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, 375, 225, 3.1);
+        faces.get(2).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, -500, 225, 3.1);
     }
 
 }

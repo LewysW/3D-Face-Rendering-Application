@@ -40,7 +40,7 @@ public class Triangle {
         return weights;
     }
 
-    //TODO - need to interpolate points in 3D space as well
+    //TODO - need to interpolate points in 3D space as well for the Gouraud shading
 //    //https://en.wikipedia.org/wiki/Barycentric_coordinate_system#Barycentric_coordinates_on_triangles
 //    static ArrayList<Double> interpolate(Vertex vertex, ArrayList<Vertex> vertices) {
 //
@@ -62,37 +62,59 @@ public class Triangle {
     }
 
     //Draw the edges between the corners of the triangle in 2D
-    public void draw(Graphics2D graphics2D, double displayWidth, double displayHeight) {
-        Path2D path = new Path2D.Double();
-        double middleX = displayWidth / 2;
-        double middleY = displayHeight / 2;
+    public void draw(Graphics2D graphics2D, double displayWidth, double displayHeight, Shading shading, double shiftX, double shiftY, double scale) {
+        ArrayList<Vertex> coords = new ArrayList<>();
+        int numVertices = 3;
 
-        //Scale image to size of display
-        double x0 = vertices.get(0).x / displayWidth;
-        double y0 = vertices.get(0).y / displayHeight;
+        for (Vertex v : vertices) {
+            Vertex vertex = new Vertex(v.x, v.y, v.z,v.r, v.g, v.b);
+            //Flips image
+            vertex.flip();
+            //Scales image
+            vertex.scale(displayWidth * scale / 2, displayHeight * scale / 2);
+            //Centres image
+            vertex.centre(displayWidth, displayHeight);
+            //Shifts image by specified x and y (when displaying reference face)
+            vertex.shift(shiftX, shiftY);
 
-        double x1 = vertices.get(1).x / displayWidth;
-        double y1 = vertices.get(1).y / displayHeight;
+            coords.add(vertex);
+        }
 
-        double x2 = vertices.get(2).x / displayWidth;
-        double y2 = vertices.get(2).y / displayHeight;
+        if (shading == Shading.FLAT) {
+            int[] x = new int[3];
+            int[] y = new int[3];
+            double r = 0;
+            double g = 0;
+            double b = 0;
 
-        //Scale to display
-        x0 += middleX;
-        y0 += middleY;
-        x1 += middleX;
-        y1 += middleY;
-        x2 += middleX;
-        y2 += middleY;
+            int i = 0;
+            for (Vertex v : coords) {
+                x[i] = (int) v.x;
+                y[i++] = (int) v.y;
+                r += v.r;
+                g += v.g;
+                b += v.b;
+            }
 
-        //Move to top corner of triangle
-        path.moveTo(x0, y0);
+            r /= numVertices;
+            g /= numVertices;
+            b /= numVertices;
 
-        //Draw line from top corner to bottom left and bottom right corners
-        path.lineTo(x1, y1);
-        path.lineTo(x2, y2);
-        path.lineTo(x0, y0);
+            graphics2D.setColor(new Color((float) r / 255, (float) g / 255, (float) b / 255));
+            graphics2D.drawPolygon(x, y, 3);
+            graphics2D.fillPolygon(x, y , 3);
+        }
 
-        graphics2D.draw(path);
+//        //Move to top corner of triangle
+//        path.moveTo(coords.get(0).x, coords.get(0).y);
+//
+//        //Draw line from top corner to bottom left and bottom right corners
+//        path.lineTo(coords.get(1).x, coords.get(1).y);
+//        path.lineTo(coords.get(2).x, coords.get(2).y);
+//        path.lineTo(coords.get(0).x, coords.get(0).y);
+//
+//        graphics2D.draw(path);
     }
+
+
 }
