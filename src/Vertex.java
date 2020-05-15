@@ -2,12 +2,17 @@ import java.awt.*;
 
 public class Vertex {
     double x, y, z;
-    Color colour;
+    double r, g, b;
 
-    public Vertex(double x, double y, double z, Color c) {
+    public Vertex(double x, double y, double z, double r, double g, double b) {
+        //Coordinates
         this.x = x;
         this.y = y;
         this.z = z;
-        this.colour = c;
+
+        //Colours
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 }

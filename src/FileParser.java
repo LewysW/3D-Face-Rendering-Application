@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
-public class FaceFileParser {
+public class FileParser {
     private ArrayList<ArrayList<Double>> meshIndices;
     private ArrayList<Double> sh_EV;
     private ArrayList<Double> tx_EV;
     private ArrayList<ArrayList<Double>> averageShape;
     private ArrayList<ArrayList<Double>> averageTexture;
 
-    public FaceFileParser(String meshFile, String sh_EV_File, String tx_EV_File, String averageFace) {
+    public FileParser(String meshFile, String sh_EV_File, String tx_EV_File, String averageFace) {
         this.meshIndices = loadCSV(meshFile);
         this.sh_EV = loadEVFile(sh_EV_File);
         this.tx_EV = loadEVFile(tx_EV_File);
@@ -95,8 +95,6 @@ public class FaceFileParser {
             txFileData.set(row, textures);
         }
 
-        int i = 0;
-
         //Use mesh file values to index into values from sh_00n.csv and tx_00n.csv to generate vertices and triangles
         for (ArrayList<Double> row : meshIndices) {
             //Create new triangle
@@ -113,12 +111,11 @@ public class FaceFileParser {
                 double z = shFileData.get(index).get(2);
 
                 //Get the RGB values of the current vertex
-                float r = txFileData.get(index).get(0).floatValue() / 255;
-                float g = txFileData.get(index).get(1).floatValue() / 255;
-                float b = txFileData.get(index).get(2).floatValue() / 255;
+                double r = txFileData.get(index).get(0);
+                double g = txFileData.get(index).get(1);
+                double b = txFileData.get(index).get(2);
 
-
-                triangle.vertices.add(new Vertex(x, y, z, new Color(r, g, b)));
+                triangle.vertices.add(new Vertex(x, y, z, r, g, b));
             }
 
             triangles.add(triangle);

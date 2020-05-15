@@ -40,7 +40,8 @@ public class Rendering extends JPanel {
     static JRadioButton perspective = new JRadioButton("Perspective");
 
     static Rendering faceRendering;
-    static ArrayList<Face> faces;
+    //Reference faces
+    static ArrayList<Face> faces = new ArrayList<>();
 
     static String meshFile = "data/mesh.csv";
     static String shEVFile = "data/sh_ev.csv";
@@ -110,12 +111,12 @@ public class Rendering extends JPanel {
         triangleLabels.add("Face 3");
 
         //Parser to parse files
-        FaceFileParser faceFileParser = new FaceFileParser(meshFile, shEVFile, txEVFile, faceFile0);
+        FileParser fileParser = new FileParser(meshFile, shEVFile, txEVFile, faceFile0);
 
         //Load the three faces in
-        faces.add(faceFileParser.loadFace(faceFile1));
-        faces.add(faceFileParser.loadFace(faceFile2));
-        faces.add(faceFileParser.loadFace(faceFile3));
+        faces.add(fileParser.loadFace(faceFile1));
+        faces.add(fileParser.loadFace(faceFile2));
+        faces.add(fileParser.loadFace(faceFile3));
 
         //Draws the frame
         display.repaint();
@@ -162,6 +163,10 @@ public class Rendering extends JPanel {
                         faceRendering.setVisible(false);
                         faceRendering.frame.dispose();
                     }
+
+                    //Get weights for each face determined by point in triangle
+                    ArrayList<Double> weights = Triangle.interpolate(points.get(0), trianglePoints);
+                    Face syntheticFace = new Face(faces, weights);
 
                     //Create new window to display new synthetic face
                     faceRendering = new Rendering();
