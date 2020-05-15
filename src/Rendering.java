@@ -40,8 +40,12 @@ public class Rendering extends JPanel {
     static JRadioButton perspective = new JRadioButton("Perspective");
 
     static Rendering faceRendering;
+
     //Reference faces
     static ArrayList<Face> faces = new ArrayList<>();
+
+    //Synthetic face
+    static Face syntheticFace;
 
     static String meshFile = "data/mesh.csv";
     static String shEVFile = "data/sh_ev.csv";
@@ -166,7 +170,7 @@ public class Rendering extends JPanel {
 
                     //Get weights for each face determined by point in triangle
                     ArrayList<Double> weights = Triangle.interpolate(points.get(0), trianglePoints);
-                    Face syntheticFace = new Face(faces, weights);
+                    syntheticFace = new Face(faces, weights);
 
                     //Create new window to display new synthetic face
                     faceRendering = new Rendering();
@@ -179,9 +183,6 @@ public class Rendering extends JPanel {
 
                     //Sets frame to visible
                     faceRendering.frame.setVisible(true);
-
-                    //Draws the frame
-                    faceRendering.repaint();
 
                     //Sets resizable to false for the window
                     faceRendering.frame.setResizable(false);
@@ -207,6 +208,12 @@ public class Rendering extends JPanel {
 
             displayTriangle(graphics2D, trianglePoints, triangleLabels);
             plotPoints(graphics2D, points);
+        //If frame is secondary frame
+        } else if (syntheticFace != null) {
+            Shading shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
+            Projection projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
+
+            syntheticFace.display(graphics2D, shading, projection);
         }
     }
 

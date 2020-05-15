@@ -75,4 +75,9 @@ public class Face {
             return t1.averageDepth().compareTo(t2.averageDepth());
         }
     }
+
+    void display(Graphics2D graphics2D, Shading shading, Projection projection) {
+        System.out.println("Shading: " + shading.name());
+        System.out.println("Projection: " + projection.name());
+    }
 }
