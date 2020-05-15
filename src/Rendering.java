@@ -281,6 +281,9 @@ public class Rendering extends JPanel {
     }
 
     private void displayFaces(Graphics2D graphics2D, ArrayList<Face> faces) {
+        System.out.println(faces.get(0));
+        System.out.println(faces.get(1));
+        System.out.println(faces.get(2));
         faces.get(0).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, -65, -255, 3.1);
         faces.get(1).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, 375, 225, 3.1);
         faces.get(2).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, -500, 225, 3.1);

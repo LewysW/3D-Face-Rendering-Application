@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class Face {
     ArrayList<Triangle> triangles = new ArrayList<>();
@@ -45,9 +46,6 @@ public class Face {
             //Add the synthetic triangle to the triangles of the new face
             this.triangles.add(syntheticTriangle);
         }
-
-        //Reverse sort triangles by average depth for use in painter's algorithm
-        Collections.sort(triangles, new TriangleComparator().reversed());
     }
 
     /**
@@ -77,12 +75,14 @@ public class Face {
     }
 
     void display(Graphics2D graphics2D, Shading shading, Projection projection, double focalLength, double width, double height, double shiftX, double shiftY, double scale) {
-        ArrayList<Triangle> trianglesToDisplay;
+        ArrayList<Triangle> trianglesToDisplay = triangles.stream().collect(Collectors.toCollection(ArrayList::new));
+        //Sort triangles by average depth for use in painter's algorithm
+        Collections.sort(trianglesToDisplay, new TriangleComparator());
 
         if (projection == Projection.PERSPECTIVE) {
-            trianglesToDisplay = perspectiveView(triangles, focalLength);
+            //trianglesToDisplay = perspectiveView(triangles, focalLength);
         } else {
-            trianglesToDisplay = triangles;
+            //trianglesToDisplay = triangles;
         }
 
         for (Triangle t : trianglesToDisplay) {
@@ -90,8 +90,6 @@ public class Face {
         }
 
         //TODO - let user specify focal length of camera
-
-        //TODO - normalise points when displaying them, assuming viewing position is (0, 0, 0)
     }
 
     ArrayList<Triangle> perspectiveView(ArrayList<Triangle> triangles, double focalLength) {

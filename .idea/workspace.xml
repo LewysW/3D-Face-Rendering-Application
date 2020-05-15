@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abd7580e-2f0f-41ce-a053-111868fca3cd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Face.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Face.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Triangle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Triangle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Vertex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Vertex.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Face.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Face.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Rendering.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rendering.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vertex.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Rendering.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="715">
-              <caret line="283" column="89" selection-start-line="283" selection-start-column="89" selection-end-line="283" selection-end-column="89" />
+            <state relative-caret-position="880">
+              <caret line="285" column="38" selection-start-line="285" selection-start-column="38" selection-end-line="285" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4985#5117#0" expanded="true" />
@@ -68,15 +58,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Face.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="745">
-              <caret line="97" column="25" lean-forward="true" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="25" />
+            <state relative-caret-position="445">
+              <caret line="77" column="73" selection-start-line="77" selection-start-column="73" selection-end-line="77" selection-end-column="73" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#145#146#0" expanded="true" />
-                <element signature="e#186#187#0" expanded="true" />
+                <element signature="e#223#224#0" expanded="true" />
+                <element signature="e#265#266#0" expanded="true" />
                 <element signature="e#2026#2027#0" expanded="true" />
                 <element signature="e#2074#2075#0" expanded="true" />
                 <element signature="e#3536#3537#0" expanded="true" />
@@ -138,9 +128,9 @@
         <option value="$PROJECT_DIR$/src/Projection.java" />
         <option value="$PROJECT_DIR$/src/FileParser.java" />
         <option value="$PROJECT_DIR$/src/Vertex.java" />
-        <option value="$PROJECT_DIR$/src/Face.java" />
         <option value="$PROJECT_DIR$/src/Triangle.java" />
         <option value="$PROJECT_DIR$/src/Rendering.java" />
+        <option value="$PROJECT_DIR$/src/Face.java" />
       </list>
     </option>
   </component>
@@ -179,7 +169,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589558734945" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589565092028" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -219,12 +209,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589448805709</updated>
-      <workItem from="1589448809777" duration="48645000" />
+      <workItem from="1589448809777" duration="50104000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48645000" />
+    <option name="totallyTimeSpent" value="50104000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="-1" width="1920" height="1080" extended-state="6" />
@@ -309,22 +299,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Face.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="97" column="25" lean-forward="true" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#145#146#0" expanded="true" />
-            <element signature="e#186#187#0" expanded="true" />
-            <element signature="e#2026#2027#0" expanded="true" />
-            <element signature="e#2074#2075#0" expanded="true" />
-            <element signature="e#3536#3537#0" expanded="true" />
-            <element signature="e#3563#3564#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -337,14 +311,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Rendering.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="715">
-          <caret line="283" column="89" selection-start-line="283" selection-start-column="89" selection-end-line="283" selection-end-column="89" />
+        <state relative-caret-position="880">
+          <caret line="285" column="38" selection-start-line="285" selection-start-column="38" selection-end-line="285" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4985#5117#0" expanded="true" />
             <element signature="e#5116#5117#0" expanded="true" />
             <element signature="e#5196#6094#0" expanded="true" />
             <element signature="e#6093#6094#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Face.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="77" column="73" selection-start-line="77" selection-start-column="73" selection-end-line="77" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#223#224#0" expanded="true" />
+            <element signature="e#265#266#0" expanded="true" />
+            <element signature="e#2026#2027#0" expanded="true" />
+            <element signature="e#2074#2075#0" expanded="true" />
+            <element signature="e#3536#3537#0" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
           </folding>
         </state>
       </provider>
