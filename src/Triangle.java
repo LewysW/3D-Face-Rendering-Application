@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -58,5 +59,40 @@ public class Triangle {
 
         z /= vertices.size();
         return z;
+    }
+
+    //Draw the edges between the corners of the triangle in 2D
+    public void draw(Graphics2D graphics2D, double displayWidth, double displayHeight) {
+        Path2D path = new Path2D.Double();
+        double middleX = displayWidth / 2;
+        double middleY = displayHeight / 2;
+
+        //Scale image to size of display
+        double x0 = vertices.get(0).x / displayWidth;
+        double y0 = vertices.get(0).y / displayHeight;
+
+        double x1 = vertices.get(1).x / displayWidth;
+        double y1 = vertices.get(1).y / displayHeight;
+
+        double x2 = vertices.get(2).x / displayWidth;
+        double y2 = vertices.get(2).y / displayHeight;
+
+        //Scale to display
+        x0 += middleX;
+        y0 += middleY;
+        x1 += middleX;
+        y1 += middleY;
+        x2 += middleX;
+        y2 += middleY;
+
+        //Move to top corner of triangle
+        path.moveTo(x0, y0);
+
+        //Draw line from top corner to bottom left and bottom right corners
+        path.lineTo(x1, y1);
+        path.lineTo(x2, y2);
+        path.lineTo(x0, y0);
+
+        graphics2D.draw(path);
     }
 }

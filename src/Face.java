@@ -34,9 +34,9 @@ public class Face {
                 Vertex vertex2 = faces.get(2).triangles.get(t).vertices.get(v);
 
                 //Generate a new 'synthetic' vertex using the three existing vertices and the weigths of each face
-                syntheticVertex = apply(syntheticVertex, vertex0, weights.get(0));
-                syntheticVertex = apply(syntheticVertex, vertex1, weights.get(1));
-                syntheticVertex = apply(syntheticVertex, vertex2, weights.get(2));
+                syntheticVertex = applyWeight(syntheticVertex, vertex0, weights.get(0));
+                syntheticVertex = applyWeight(syntheticVertex, vertex1, weights.get(1));
+                syntheticVertex = applyWeight(syntheticVertex, vertex2, weights.get(2));
 
                 //Add the new 'synthetic' vertex to a new 'synthetic' triangle
                 syntheticTriangle.vertices.add(syntheticVertex);
@@ -51,13 +51,13 @@ public class Face {
     }
 
     /**
-     * Apply influence of vertex v * weight to synthetic vertex
+     * Apply influence of vertex v to synthetic vertex
      * @param synthetic - new synthetic vertex
      * @param v - vertex of reference face
      * @param weight - weight to apply to reference face vertex
      * @return synthetic vertex with applied weight of vertex v
      */
-    Vertex apply(Vertex synthetic, Vertex v, double weight) {
+    Vertex applyWeight(Vertex synthetic, Vertex v, double weight) {
         synthetic.x += weight * v.x;
         synthetic.y += weight * v.y;
         synthetic.z += weight * v.z;
@@ -76,8 +76,28 @@ public class Face {
         }
     }
 
-    void display(Graphics2D graphics2D, Shading shading, Projection projection) {
+    void display(Graphics2D graphics2D, Shading shading, Projection projection, double focalLength, double width, double height) {
         System.out.println("Shading: " + shading.name());
         System.out.println("Projection: " + projection.name());
+        ArrayList<Triangle> trianglesToDisplay;
+
+        if (projection == Projection.PERSPECTIVE) {
+            trianglesToDisplay = perspectiveView(triangles, focalLength);
+        } else {
+            trianglesToDisplay = triangles;
+        }
+
+        for (Triangle t : trianglesToDisplay) {
+            System.out.println("Drawing triangle!");
+            t.draw(graphics2D, width, height);
+        }
+
+        //TODO - let user specify focal length of camera
+
+        //TODO - normalise points when displaying them, assuming viewing position is (0, 0, 0)
+    }
+
+    ArrayList<Triangle> perspectiveView(ArrayList<Triangle> triangles, double focalLength) {
+        return triangles;
     }
 }

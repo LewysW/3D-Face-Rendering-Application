@@ -28,6 +28,9 @@ public class Rendering extends JPanel {
     //Is the main frame
     private boolean mainFrame = false;
 
+    private static final double WIDTH = 1280;
+    private static final double HEIGHT = 720;
+
     //Button to draw the render on the display
     private JButton render = new JButton("Render");
 
@@ -177,7 +180,7 @@ public class Rendering extends JPanel {
                     faceRendering.frame = new JFrame();
                     //Specifies layout of frame
                     faceRendering.frame.setTitle("Synthetic Face");
-                    faceRendering.frame.setSize(1280, 720);
+                    faceRendering.frame.setSize((int) WIDTH, (int) HEIGHT);
                     Container contentPane = faceRendering.frame.getContentPane();
                     contentPane.add(faceRendering, BorderLayout.CENTER);
 
@@ -213,7 +216,8 @@ public class Rendering extends JPanel {
             Shading shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
             Projection projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
 
-            syntheticFace.display(graphics2D, shading, projection);
+            System.out.println("Displaying synthetic face!");
+            syntheticFace.display(graphics2D, shading, projection, 0, WIDTH, HEIGHT);
         }
     }
 
