@@ -44,4 +44,19 @@ public class Triangle {
 //    static ArrayList<Double> interpolate(Vertex vertex, ArrayList<Vertex> vertices) {
 //
 //    }
+
+    /**
+     * Calculates average depth of three vertices
+     * @return average depth of vertices
+     */
+    Double averageDepth() {
+        double z = 0;
+
+        for (Vertex v : vertices) {
+            z += v.z;
+        }
+
+        z /= vertices.size();
+        return z;
+    }
 }

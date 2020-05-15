@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Face {
     ArrayList<Triangle> triangles = new ArrayList<>();
@@ -33,8 +35,8 @@ public class Face {
 
             this.triangles.add(syntheticTriangle);
         }
-        
-        System.out.println("Triangles.size(): " + triangles.size());
+
+        Collections.sort(triangles, new TriangleComparator());
     }
 
     Vertex apply(Vertex synthetic, Vertex v, double weight) {
@@ -47,5 +49,12 @@ public class Face {
         synthetic.b += weight * v.b;
 
         return synthetic;
+    }
+
+    public class TriangleComparator implements Comparator<Triangle> {
+        @Override
+        public int compare(Triangle t1, Triangle t2) {
+            return t1.averageDepth().compareTo(t2.averageDepth());
+        }
     }
 }
