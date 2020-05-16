@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CS4102-P2-3D:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CS4102_P2_3D_jar</output-path>
+    <root id="archive" name="CS4102-P2-3D.jar">
+      <element id="module-output" name="CS4102-P2-3D" />
+    </root>
+  </artifact>
+</component>

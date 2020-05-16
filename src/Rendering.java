@@ -108,8 +108,7 @@ public class Rendering extends JPanel {
         buttonGroup.add(gouraud);
         display.panel.add(flat);
         display.panel.add(gouraud);
-        gouraud.setSelected(true);
-        //flat.setSelected(true);
+        flat.setSelected(true);
 
         //Projection label
         JLabel projectionLabel = new JLabel("Projection:");
@@ -256,7 +255,7 @@ public class Rendering extends JPanel {
         //If synthetic face has been generated
         } else if (syntheticFace != null) {
             //Display the synthetic face in the second window
-            syntheticFace.display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -200, -250, 25);
+            syntheticFace.display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -250, -300, 14);
         }
     }
 
