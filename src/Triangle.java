@@ -73,37 +73,33 @@ public class Triangle {
 
             vertex = new Vertex(v.x, v.y, v.z,v.r, v.g, v.b);
 
-            //TODO - need to increment by W (i.e. distance from camera to screen rather than by focalLength)
             vertex.z += focalLength;
 
             if (projection == Projection.PERSPECTIVE) {
-                //System.out.println("f/z = r/R:" + focalLength + "/" + (vertex.z));
+                System.out.println("f/z = r/R:" + focalLength + "/" + (vertex.z));
 
-//                double x = vertex.x;
-//                double y = vertex.y;
+                double x = vertex.x;
+                double y = vertex.y;
 
                 vertex.x = focalLength * (vertex.x / vertex.z);
                 vertex.y = focalLength * (vertex.y / vertex.z);
 
-                vertex.flip();
-                vertex.scale(displayWidth, displayHeight, focalLength);
-//                System.out.println("x/X = y/Y = r/R: " + vertex.x / x + " = " + vertex.y / y + " = " + focalLength / vertex.z);
-            }
 
-
-            if (projection == Projection.ORTHOGRAPHIC) {
-                //Flips image
-                vertex.flip();
-                //Scales image
-                vertex.scale(displayWidth, displayHeight, scale);
+                scale = focalLength;
+                System.out.println("x/X = y/Y = r/R: " + vertex.x / x + " = " + vertex.y / y + " = " + (double) focalLength / vertex.z);
             }
+            //Flips image
+            vertex.flip();
+
+            //Scales image
+            vertex.scale(displayWidth, displayHeight, scale);
 
             //Centres image
             vertex.centre(displayWidth, displayHeight);
 
-
             //Shifts image by specified x and y (when displaying reference face)
             vertex.shift(shiftX, shiftY);
+
 
             coords.add(vertex);
         }

@@ -26,11 +26,8 @@ public class Vertex {
     }
 
     void centre(double displayWidth, double displayHeight) {
-        double middleX = displayWidth / 2;
-        double middleY = displayHeight / 2;
-
-        x += middleX;
-        y += middleY;
+        x = (displayWidth + x) / 2;
+        y = (displayHeight + y) / 2;
     }
 
     void flip() {
