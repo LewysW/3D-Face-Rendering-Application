@@ -307,12 +307,9 @@ public class Rendering extends JPanel {
     }
 
     private void displayFaces(Graphics2D graphics2D, ArrayList<Face> faces) {
-        System.out.println(faces.get(0));
-        System.out.println(faces.get(1));
-        System.out.println(faces.get(2));
-        faces.get(0).display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -112, -255, 3.1);
-        faces.get(1).display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, 300, 225, 3.1);
-        faces.get(2).display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -500, 225, 3.1);
+        faces.get(0).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, -112, -255, 3.1);
+        faces.get(1).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, 300, 225, 3.1);
+        faces.get(2).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, -500, 225, 3.1);
     }
 
     static class SliderListener implements ChangeListener {

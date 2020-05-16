@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="abd7580e-2f0f-41ce-a053-111868fca3cd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Face$TriangleComparator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Face$TriangleComparator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Face.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Face.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$SliderListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering$SliderListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CS4102-P2-3D/Rendering.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Face.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Face.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Rendering.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rendering.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle.java" afterDir="false" />
@@ -31,11 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Rendering.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+            <state relative-caret-position="550">
+              <caret line="308" column="77" selection-start-line="308" selection-start-column="77" selection-end-line="308" selection-end-column="77" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4985#5117#0" expanded="true" />
@@ -48,10 +51,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/FileParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="842">
+              <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Vertex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+            <state relative-caret-position="210">
+              <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#699#700#0" expanded="true" />
@@ -61,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Face.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="76" column="47" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="47" />
+            <state relative-caret-position="445">
+              <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#223#224#0" expanded="true" />
@@ -80,8 +95,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Triangle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1980">
-              <caret line="141" column="86" selection-start-line="141" selection-start-column="86" selection-end-line="141" selection-end-column="86" />
+            <state relative-caret-position="279">
+              <caret line="74" selection-start-line="74" selection-end-line="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,13 +127,13 @@
       <find>paintComp</find>
       <find>System.out.print</find>
       <find>Focal l</find>
-      <find>Shading</find>
-      <find>barycentric</find>
       <find>shading</find>
       <find>bary</find>
       <find>flat</find>
       <find>face</find>
       <find>display</find>
+      <find>barycentric</find>
+      <find>Shading</find>
       <find>pl</find>
     </findStrings>
     <replaceStrings>
@@ -139,9 +154,9 @@
         <option value="$PROJECT_DIR$/src/Projection.java" />
         <option value="$PROJECT_DIR$/src/FileParser.java" />
         <option value="$PROJECT_DIR$/src/Vertex.java" />
-        <option value="$PROJECT_DIR$/src/Face.java" />
-        <option value="$PROJECT_DIR$/src/Triangle.java" />
         <option value="$PROJECT_DIR$/src/Rendering.java" />
+        <option value="$PROJECT_DIR$/src/Triangle.java" />
+        <option value="$PROJECT_DIR$/src/Face.java" />
       </list>
     </option>
   </component>
@@ -180,7 +195,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589589004644" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589623624540" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -220,12 +235,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589448805709</updated>
-      <workItem from="1589448809777" duration="73383000" />
+      <workItem from="1589448809777" duration="80344000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73383000" />
+    <option name="totallyTimeSpent" value="80344000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="-1" width="1920" height="1080" extended-state="6" />
@@ -246,7 +261,7 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3291536" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2960251" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.86087865" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -281,16 +296,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="122" column="8" selection-start-line="122" selection-start-column="8" selection-end-line="122" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Shading.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -298,10 +303,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Rendering.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="308" column="77" selection-start-line="308" selection-start-column="77" selection-end-line="308" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4985#5117#0" expanded="true" />
+            <element signature="e#5116#5117#0" expanded="true" />
+            <element signature="e#5196#6094#0" expanded="true" />
+            <element signature="e#6093#6094#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Vertex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+        <state relative-caret-position="210">
+          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#699#700#0" expanded="true" />
@@ -310,40 +329,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Face.java">
+    <entry file="file://$PROJECT_DIR$/src/FileParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="76" column="47" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="47" />
+        <state relative-caret-position="842">
+          <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#223#224#0" expanded="true" />
-            <element signature="e#265#266#0" expanded="true" />
-            <element signature="e#2026#2027#0" expanded="true" />
-            <element signature="e#2074#2075#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1980">
-          <caret line="141" column="86" selection-start-line="141" selection-start-column="86" selection-end-line="141" selection-end-column="86" />
+        <state relative-caret-position="279">
+          <caret line="74" selection-start-line="74" selection-end-line="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Rendering.java">
+    <entry file="file://$PROJECT_DIR$/src/Face.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+        <state relative-caret-position="445">
+          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4985#5117#0" expanded="true" />
-            <element signature="e#5116#5117#0" expanded="true" />
-            <element signature="e#5196#6094#0" expanded="true" />
-            <element signature="e#6093#6094#0" expanded="true" />
+            <element signature="e#223#224#0" expanded="true" />
+            <element signature="e#265#266#0" expanded="true" />
+            <element signature="e#2026#2027#0" expanded="true" />
+            <element signature="e#2074#2075#0" expanded="true" />
           </folding>
         </state>
       </provider>

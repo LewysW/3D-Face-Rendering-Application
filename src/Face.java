@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+import static java.lang.System.exit;
+
 public class Face {
     ArrayList<Triangle> triangles = new ArrayList<>();
 
@@ -20,6 +22,7 @@ public class Face {
     Face(ArrayList<Face> faces, ArrayList<Double> weights) {
         int numTriangles = faces.get(0).triangles.size();
 
+        System.out.println(weights);
         //For each triangle in provided faces
         for (int t = 0; t < numTriangles; t++) {
             int numVertices = faces.get(0).triangles.get(0).vertices.size();
@@ -76,30 +79,34 @@ public class Face {
 
     void display(Graphics2D graphics2D, Shading shading, Projection projection, int focalLength, double width,
                  double height, double shiftX, double shiftY, double scale) {
-        ArrayList<Triangle> trianglesToDisplay = triangles.stream().collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Triangle> trianglesToDisplay = (ArrayList<Triangle>) triangles.clone();
+
+        //Sort if not already sorted
+        System.out.println("Sorting!");
         //Sort triangles by average depth for use in painter's algorithm
         Collections.sort(trianglesToDisplay, new TriangleComparator());
 
+        normaliseZ(trianglesToDisplay);
+
+        System.out.println("Size: " + trianglesToDisplay.size());
         //Draw each triangle
         for (Triangle t : trianglesToDisplay) {
-            t.draw(graphics2D, width, height, shading, shiftX, shiftY, scale);
+            t.draw(graphics2D, width, height, shading, projection, shiftX, shiftY, scale);
         }
 
         //TODO - let user specify focal length of camera
     }
 
-    private ArrayList<Triangle> perspectiveProject(ArrayList<Triangle> trianglesToDisplay, double focalLength) {
-        for (int t = 0; t < trianglesToDisplay.size(); t++) {
-            for (int v = 0; v < trianglesToDisplay.get(t).vertices.size(); v++) {
-                Vertex vertex = trianglesToDisplay.get(t).vertices.get(v);
+    private void normaliseZ(ArrayList<Triangle> triangles) {
+        double z_max = triangles.get(triangles.size() - 1).averageDepth();
+        double z_min = triangles.get(0).averageDepth();
 
-                vertex.x = focalLength * (vertex.x / vertex.z);
-                vertex.y = focalLength * (vertex.y / vertex.z);
-
-                trianglesToDisplay.get(t).vertices.set(v, vertex);
+        for (Triangle t : triangles) {
+            double z = t.averageDepth();
+            for (Vertex v : t.vertices) {
+                v.z = (z - z_min) / (z_max - z_min);
             }
         }
 
-        return trianglesToDisplay;
     }
 }
