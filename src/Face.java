@@ -34,7 +34,7 @@ public class Face {
                 Vertex vertex1 = faces.get(1).triangles.get(t).vertices.get(v);
                 Vertex vertex2 = faces.get(2).triangles.get(t).vertices.get(v);
 
-                //Generate a new 'synthetic' vertex using the three existing vertices and the weigths of each face
+                //Generate a new 'synthetic' vertex using the three existing vertices and the weights of each face
                 syntheticVertex = applyWeight(syntheticVertex, vertex0, weights.get(0));
                 syntheticVertex = applyWeight(syntheticVertex, vertex1, weights.get(1));
                 syntheticVertex = applyWeight(syntheticVertex, vertex2, weights.get(2));
@@ -74,17 +74,13 @@ public class Face {
         }
     }
 
-    void display(Graphics2D graphics2D, Shading shading, Projection projection, double focalLength, double width, double height, double shiftX, double shiftY, double scale) {
+    void display(Graphics2D graphics2D, Shading shading, Projection projection, int focalLength, double width,
+                 double height, double shiftX, double shiftY, double scale) {
         ArrayList<Triangle> trianglesToDisplay = triangles.stream().collect(Collectors.toCollection(ArrayList::new));
         //Sort triangles by average depth for use in painter's algorithm
         Collections.sort(trianglesToDisplay, new TriangleComparator());
 
-        if (projection == Projection.PERSPECTIVE) {
-            //trianglesToDisplay = perspectiveView(triangles, focalLength);
-        } else {
-            //trianglesToDisplay = triangles;
-        }
-
+        //Draw each triangle
         for (Triangle t : trianglesToDisplay) {
             t.draw(graphics2D, width, height, shading, shiftX, shiftY, scale);
         }
@@ -92,7 +88,18 @@ public class Face {
         //TODO - let user specify focal length of camera
     }
 
-    ArrayList<Triangle> perspectiveView(ArrayList<Triangle> triangles, double focalLength) {
-        return triangles;
+    private ArrayList<Triangle> perspectiveProject(ArrayList<Triangle> trianglesToDisplay, double focalLength) {
+        for (int t = 0; t < trianglesToDisplay.size(); t++) {
+            for (int v = 0; v < trianglesToDisplay.get(t).vertices.size(); v++) {
+                Vertex vertex = trianglesToDisplay.get(t).vertices.get(v);
+
+                vertex.x = focalLength * (vertex.x / vertex.z);
+                vertex.y = focalLength * (vertex.y / vertex.z);
+
+                trianglesToDisplay.get(t).vertices.set(v, vertex);
+            }
+        }
+
+        return trianglesToDisplay;
     }
 }

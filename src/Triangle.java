@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import static java.lang.System.exit;
 
 public class Triangle {
     ArrayList<Vertex> vertices = new ArrayList<>();
@@ -64,10 +67,12 @@ public class Triangle {
     //Draw the edges between the corners of the triangle in 2D
     public void draw(Graphics2D graphics2D, double displayWidth, double displayHeight, Shading shading, double shiftX, double shiftY, double scale) {
         ArrayList<Vertex> coords = new ArrayList<>();
-        int numVertices = 3;
 
         for (Vertex v : vertices) {
-            Vertex vertex = new Vertex(v.x, v.y, v.z,v.r, v.g, v.b);
+            Vertex vertex;
+
+            vertex = new Vertex(v.x, v.y, v.z,v.r, v.g, v.b);
+
             //Flips image
             vertex.flip();
             //Scales image
@@ -80,41 +85,97 @@ public class Triangle {
             coords.add(vertex);
         }
 
-        if (shading == Shading.FLAT) {
-            int[] x = new int[3];
-            int[] y = new int[3];
-            double r = 0;
-            double g = 0;
-            double b = 0;
+        int[] x = new int[vertices.size()];
+        int[] y = new int[vertices.size()];
 
-            int i = 0;
-            for (Vertex v : coords) {
-                x[i] = (int) v.x;
-                y[i++] = (int) v.y;
-                r += v.r;
-                g += v.g;
-                b += v.b;
-            }
-
-            r /= numVertices;
-            g /= numVertices;
-            b /= numVertices;
-
-            graphics2D.setColor(new Color((float) r / 255, (float) g / 255, (float) b / 255));
-            graphics2D.drawPolygon(x, y, 3);
-            graphics2D.fillPolygon(x, y , 3);
+        //Get coords as primitive array to initialise polygon
+        for (int v = 0; v < coords.size(); v++) {
+            x[v] = (int) coords.get(v).x;
+            y[v] = (int) coords.get(v).y;
         }
 
-//        //Move to top corner of triangle
-//        path.moveTo(coords.get(0).x, coords.get(0).y);
-//
-//        //Draw line from top corner to bottom left and bottom right corners
-//        path.lineTo(coords.get(1).x, coords.get(1).y);
-//        path.lineTo(coords.get(2).x, coords.get(2).y);
-//        path.lineTo(coords.get(0).x, coords.get(0).y);
-//
-//        graphics2D.draw(path);
+        Polygon polygon = new Polygon(x, y, vertices.size());
+
+        if (shading == Shading.FLAT) {
+            shadeFlat(graphics2D, coords, polygon);
+        } else if (shading == Shading.GOURAUD) {
+           shadeGouraud(graphics2D, coords, polygon);
+        }
     }
 
+    /**
+     * Shades a polygon using the average colour of the 3 vertices
+     * @param graphics2D - to render polygon
+     * @param vertices - list of vertices of triangle
+     */
+    private void shadeFlat(Graphics2D graphics2D, ArrayList<Vertex> vertices, Polygon polygon) {
+        int[] x = new int[3];
+        int[] y = new int[3];
+        Color[] colours = new Color[3];
+        double r = 0;
+        double g = 0;
+        double b = 0;
+
+        int i = 0;
+        for (Vertex v : vertices) {
+            r += v.r;
+            g += v.g;
+            b += v.b;
+
+            colours[i] = new Color((float) v.r / 255, (float) v.g / 255, (float) v.b / 255);
+
+            x[i] = (int) v.x;
+            y[i++] = (int) v.y;
+        }
+
+        r /= vertices.size();
+        g /= vertices.size();
+        b /= vertices.size();
+
+        graphics2D.setColor(new Color((float) r / 255, (float) g / 255, (float) b / 255));
+       // graphics2D.drawPolygon(x, y, 3);
+        graphics2D.fillPolygon(polygon);
+    }
+
+    /**
+     * Shades a polygon by filling in each point using the interpolation of each of the three vertices' colours
+     * does this using GradientPaint rather than pixel by pixel due to time to process
+     * @param graphics2D
+     * @param vertices
+     * @param polygon
+     */
+    private void shadeGouraud(Graphics2D graphics2D, ArrayList<Vertex> vertices, Polygon polygon) {
+        ArrayList<Color> colours = new ArrayList<>();
+        float x0 = (float) vertices.get(0).x;
+        float y0 = (float) vertices.get(0).y;
+        float x1 = (float) vertices.get(1).x;
+        float y1 = (float) vertices.get(1).y;
+        float x2 = (float) vertices.get(2).x;
+        float y2 = (float) vertices.get(2).y;
+
+
+        //Store colour for each vertex
+        for (Vertex v : vertices) {
+            Color color = new Color((float) v.r / 255, (float) v.g / 255, (float) v.b / 255);
+            colours.add(color);
+        }
+
+        //Generate gradient from each vertex to each other vertex, starting at colour of the first vertex
+        // and transition to colour of second vertex
+        GradientPaint gradient1 = new GradientPaint(x0, y0, colours.get(0), x1, y1, colours.get(1));
+        GradientPaint gradient2 = new GradientPaint(x1, y1, colours.get(1), x2, y2, colours.get(2));
+        GradientPaint gradient3 = new GradientPaint(x2, y2, colours.get(2), x0, y0, colours.get(0));
+
+        //Apply first gradient
+        graphics2D.setPaint(gradient1);
+        graphics2D.fillPolygon(polygon);
+        //Apply second gradient
+        graphics2D.setPaint(gradient2);
+        graphics2D.fillPolygon(polygon);
+        //Apply third gradient
+        graphics2D.setPaint(gradient3);
+        graphics2D.fillPolygon(polygon);
+        return;
+    }
 
 }

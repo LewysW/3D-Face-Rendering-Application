@@ -4,6 +4,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
@@ -38,6 +40,13 @@ public class Rendering extends JPanel {
     //Radio buttons to select the perspective
     static JRadioButton orthographic = new JRadioButton("Orthographic");
     static JRadioButton perspective = new JRadioButton("Perspective");
+
+    //Values for slider
+    static final int MIN_FOCAL_LEN = 1;
+    static final int MAX_FOCAL_LEN = 100;
+
+    //Focal length
+    static int focalLength;
 
     static Rendering faceRendering;
 
@@ -88,7 +97,8 @@ public class Rendering extends JPanel {
         buttonGroup.add(gouraud);
         display.panel.add(flat);
         display.panel.add(gouraud);
-        flat.setSelected(true);
+        gouraud.setSelected(true);
+        //flat.setSelected(true);
 
         //Projection label
         JLabel projectionLabel = new JLabel("Projection:");
@@ -102,8 +112,20 @@ public class Rendering extends JPanel {
         display.panel.add(perspective);
         orthographic.setSelected(true);
 
+        //Sets initial values for shading mode and projeciton mode
         shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
         projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
+
+        JLabel sliderLabel = new JLabel("Focal Length:");
+        display.panel.add(sliderLabel);
+
+        //Slider for specifying focal length
+        JSlider focalLengthSlider = new JSlider(JSlider.HORIZONTAL, MIN_FOCAL_LEN, MAX_FOCAL_LEN, MIN_FOCAL_LEN);
+        focalLengthSlider.addChangeListener(new SliderListener());
+        focalLengthSlider.setMajorTickSpacing(25);
+        focalLengthSlider.setPaintTicks(true);
+        focalLengthSlider.setPaintLabels(true);
+        display.panel.add(focalLengthSlider);
 
         //Specifies layout of frame
         display.frame.setTitle("3D Rendering");
@@ -147,6 +169,10 @@ public class Rendering extends JPanel {
             // override only those which interests us
             @Override //I override only one method for presentation
             public void mousePressed(MouseEvent e) {
+                //Update shading and projection
+                shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
+                projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
+
                 //If point lies within triangle, clear display and plot it
                 Point2D point = new Point2D.Double(e.getX(), e.getY());
                 if (mainFrame && isWithinTriangle(trianglePoints, point)) {
@@ -154,10 +180,6 @@ public class Rendering extends JPanel {
                     points.add(point);
                     repaint();
                 }
-
-                //Update shading and projection
-                shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
-                projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
             }
         });
 
@@ -165,6 +187,10 @@ public class Rendering extends JPanel {
         //Action listener for the render button to display the synthetic face
         render.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
+                //Update shading and projection
+                shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
+                projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
+
                 //If a point on the display has been selected
                 if (!points.isEmpty()) {
                     //Close previous synthetic face if displayed
@@ -218,7 +244,7 @@ public class Rendering extends JPanel {
         //If frame is secondary frame
         } else if (syntheticFace != null) {
             System.out.println("Displaying synthetic face!");
-            syntheticFace.display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, 0, 0, 1);
+            syntheticFace.display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, 0, 0, 1);
         }
     }
 
@@ -284,9 +310,19 @@ public class Rendering extends JPanel {
         System.out.println(faces.get(0));
         System.out.println(faces.get(1));
         System.out.println(faces.get(2));
-        faces.get(0).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, -65, -255, 3.1);
-        faces.get(1).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, 375, 225, 3.1);
-        faces.get(2).display(graphics2D, shading, projection, 0, WIDTH, HEIGHT, -500, 225, 3.1);
+        faces.get(0).display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -112, -255, 3.1);
+        faces.get(1).display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, 300, 225, 3.1);
+        faces.get(2).display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -500, 225, 3.1);
+    }
+
+    static class SliderListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e) {
+            JSlider source = (JSlider)e.getSource();
+            if (!source.getValueIsAdjusting()) {
+                focalLength = source.getValue();
+                System.out.println(focalLength);
+            }
+        }
     }
 
 }
