@@ -73,11 +73,10 @@ public class Triangle {
 
             vertex = new Vertex(v.x, v.y, v.z,v.r, v.g, v.b);
 
-            if (projection == Projection.PERSPECTIVE) {
-                //TODO - scale x and y properly using z
-               // vertex.x = focalLength * (vertex.x / (vertex.z));
-                //vertex.y = focalLength * (vertex.y / (vertex.z));
+            //TODO - need to increment by W (i.e. distance from camera to screen rather than by focalLength)
+            vertex.z += focalLength;
 
+            if (projection == Projection.PERSPECTIVE) {
                 vertex.x = focalLength * (vertex.x / vertex.z);
                 vertex.y = focalLength * (vertex.y / vertex.z);
             }
