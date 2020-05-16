@@ -2,12 +2,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.stream.Collectors;
 
-import static java.lang.System.exit;
-
+/**
+ * Represent faces
+ */
 public class Face {
-    ArrayList<Triangle> triangles = new ArrayList<>();
+    //List of triangles making up a face
+    private ArrayList<Triangle> triangles = new ArrayList<>();
 
     Face(ArrayList<Triangle> triangles) {
         this.triangles = triangles;
@@ -70,6 +71,9 @@ public class Face {
         return synthetic;
     }
 
+    /**
+     * Compares two triangles by average depth for sorting
+     */
     public class TriangleComparator implements Comparator<Triangle> {
         @Override
         public int compare(Triangle t1, Triangle t2) {
@@ -77,14 +81,26 @@ public class Face {
         }
     }
 
+    /**
+     * Displays the face by displaying each triangle
+     * @param graphics2D - to display triangles
+     * @param shading - shading type (flat or gouraud)
+     * @param projection - projection type (orthographic or perspective)
+     * @param focalLength - focal length (distance from camera to image)
+     * @param width - of screen
+     * @param height - of screen
+     * @param shiftX - how much to shift image horizontally
+     * @param shiftY - how much to shift image vertically
+     * @param scale - how much to scale size of image to fit nicely on screen
+     */
     void display(Graphics2D graphics2D, Shading shading, Projection projection, int focalLength, double width,
                  double height, double shiftX, double shiftY, double scale) {
+        //Copy triangles to avoid overwriting data during transformation
         ArrayList<Triangle> trianglesToDisplay = (ArrayList<Triangle>) triangles.clone();
 
         //Sort triangles by average depth for use in painter's algorithm
         Collections.sort(trianglesToDisplay, new TriangleComparator());
 
-        System.out.println("Size: " + trianglesToDisplay.size());
         //Draw each triangle
         for (Triangle t : trianglesToDisplay) {
             t.draw(graphics2D, width, height, shading, projection, focalLength, shiftX, shiftY, scale);
