@@ -17,7 +17,10 @@ public class Vertex {
         this.b = b;
     }
 
-    void scale(double width, double height) {
+    void scale(double width, double height, double scale) {
+        width = (width / 16) * scale;
+        height = (height / 9) * scale;
+
         x = width / 2 + (x * width / 2);
         y = height / 2 + (y * height / 2);
     }

@@ -77,15 +77,26 @@ public class Triangle {
             vertex.z += focalLength;
 
             if (projection == Projection.PERSPECTIVE) {
+                //System.out.println("f/z = r/R:" + focalLength + "/" + (vertex.z));
+
+//                double x = vertex.x;
+//                double y = vertex.y;
+
                 vertex.x = focalLength * (vertex.x / vertex.z);
                 vertex.y = focalLength * (vertex.y / vertex.z);
+
+                vertex.flip();
+                vertex.scale(displayWidth, displayHeight, focalLength);
+//                System.out.println("x/X = y/Y = r/R: " + vertex.x / x + " = " + vertex.y / y + " = " + focalLength / vertex.z);
             }
 
 
-            //Flips image
-            vertex.flip();
-            //Scales image
-            vertex.scale((displayWidth / 16) * scale, (displayHeight / 9) * scale);
+            if (projection == Projection.ORTHOGRAPHIC) {
+                //Flips image
+                vertex.flip();
+                //Scales image
+                vertex.scale(displayWidth, displayHeight, scale);
+            }
 
             //Centres image
             vertex.centre(displayWidth, displayHeight);
