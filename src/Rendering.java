@@ -27,6 +27,7 @@ public class Rendering extends JPanel {
     //Is the main frame
     private boolean mainFrame = false;
 
+    //Resolution of display
     private static final double WIDTH = 1280;
     private static final double HEIGHT = 720;
 
@@ -48,17 +49,21 @@ public class Rendering extends JPanel {
     //Focal length
     static int focalLength = MIN_FOCAL_LEN;
 
+    //Object to represent window to render synthesised face
     static Rendering faceRendering;
 
-    //Reference faces
+    //Stores list of reference faces loaded from files
     static ArrayList<Face> faces = new ArrayList<>();
 
     //Synthetic face
     static Face syntheticFace;
 
+    //Stores shading method
     static Shading shading;
+    //Stores projection method
     static Projection projection;
 
+    //Store file names for files to be loaded in
     static String meshFile = "data/mesh.csv";
     static String shEVFile = "data/sh_ev.csv";
     static String txEVFile = "data/tx_ev.csv";
@@ -67,6 +72,11 @@ public class Rendering extends JPanel {
     static String faceFile2 = "002";
     static String faceFile3 = "003";
 
+    /**
+     * Main function to run program,
+     * used to set up user interface
+     * @param args
+     */
     public static void main(String[] args) {
         //Parser to parse files
         FileParser fileParser = new FileParser(meshFile, shEVFile, txEVFile, faceFile0);
@@ -76,6 +86,7 @@ public class Rendering extends JPanel {
         faces.add(fileParser.loadFace(faceFile2));
         faces.add(fileParser.loadFace(faceFile3));
 
+        //Create new object to represent the window to display the synthesised face in
         Rendering display = new Rendering();
         display.frame = new JFrame();
         display.mainFrame = true;
@@ -116,6 +127,7 @@ public class Rendering extends JPanel {
         shading = (flat.isSelected()) ? Shading.FLAT : Shading.GOURAUD;
         projection = (orthographic.isSelected()) ? Projection.ORTHOGRAPHIC : Projection.PERSPECTIVE;
 
+        //Label for focal length slider
         JLabel sliderLabel = new JLabel("Focal Length:");
         display.panel.add(sliderLabel);
 
@@ -155,7 +167,10 @@ public class Rendering extends JPanel {
     }
 
 
-    public Rendering() {
+    /**
+     * Constructor for
+     */
+    private Rendering() {
         //Exits program on window being closed
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -219,33 +234,38 @@ public class Rendering extends JPanel {
         });
     }
 
-    //Paints the display
+    /**
+     * Repaints the display
+     * @param g - graphics object used to paint display
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
         //If JFrame is the main frame
         if (mainFrame) {
-            //If no points have been plotted
-            if (points.isEmpty()) {
-                System.out.println("Gets here!");
-                //clear display and draw triangle
-                System.out.println(faces.size());
-                displayTriangle(graphics2D, trianglePoints, faces);
-                return;
+            //Display and draw triangle for user to click within
+            displayTriangle(graphics2D, trianglePoints, faces);
+
+            //If user has clicked within triangle
+            if (!points.isEmpty()) {
+                //Plot point point in triangle where user clicked
+                plotPoints(graphics2D, points);
             }
 
-
-            displayTriangle(graphics2D, trianglePoints, faces);
-            plotPoints(graphics2D, points);
-        //If frame is secondary frame
+        //If synthetic face has been generated
         } else if (syntheticFace != null) {
-            System.out.println("Displaying synthetic face!");
+            //Display the synthetic face in the second window
             syntheticFace.display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -200, -250, 25);
         }
     }
 
-    //Return whether point clicked by user lies within the triangle
+    /**
+     * Return whether point lies within triangle
+     * @param trianglePoints - vertices of triangle
+     * @param point - point to check
+     * @return whether point lies within triangle
+     */
     private boolean isWithinTriangle(ArrayList<Point2D> trianglePoints, Point2D point) {
         double p0x = trianglePoints.get(0).getX();
         double p0y = trianglePoints.get(0).getY();
@@ -267,54 +287,91 @@ public class Rendering extends JPanel {
         double s = 1/(2*area)*(p0y*p2x - p0x*p2y + (p2y - p0y)*px + (p0x - p2x)*py);
         double t = 1/(2*area)*(p0x*p1y - p0y*p1x + (p0y - p1y)*px + (p1x - p0x)*py);
 
+        //Conditions for point being within triangle
         return (s > 0) && (t > 0) && (1 - s - t > 0);
 
         //End citation
     }
 
-    //Display the triangle
+    /**
+     * Display the triangle
+     * @param graphics2D - to draw triangle
+     * @param points - vertices of triangle
+     * @param faces - faces to display on vertices of triangle
+     */
     private void displayTriangle(Graphics2D graphics2D, ArrayList<Point2D> points, ArrayList<Face> faces) {
-        System.out.println("displayTriangle!");
-        plotPoints(graphics2D, points);
+        //Draw edges between vertices
         drawEdges(graphics2D, points);
+        //Display faces at vertcies of triangle
         displayFaces(graphics2D, faces);
     }
 
-    //Plot points on the display
+    /**
+     * Plot points on screen
+     * @param graphics2D - to draw points
+     * @param points - points to plot
+     */
     private void plotPoints(Graphics2D graphics2D, ArrayList<Point2D> points) {
+        //For each point
         for (Point2D p : points) {
+            //Set colour to black
             graphics2D.setColor(Color.BLACK);
+            //Fill oval representing point
             graphics2D.fillOval((int) (p.getX() - 5.0 / 2.0), (int) (p.getY() - 5.0 / 2.0), 5, 5);
         }
     }
 
-    //Draw the edges between the corners of the triangle
+    /**
+     * Draw edges of triangle
+     * @param graphics2D - to draw path
+     * @param points - vertices of triangle
+     */
     private void drawEdges(Graphics2D graphics2D, ArrayList<Point2D> points) {
+        //Create new path
         Path2D path = new Path2D.Double();
 
-        //Move to top corner of triangle
+        //Move to top vertex of triangle
         path.moveTo(points.get(0).getX(), points.get(0).getY());
 
-        //Draw line from top corner to bottom left and bottom right corners
+        //Draw line to bottom left vertex of triangle
         path.lineTo(points.get(1).getX(), points.get(1).getY());
+        //Draw line to bottom right vertex of triangle
         path.lineTo(points.get(2).getX(), points.get(2).getY());
+        //Draw line back to top vertex of triangle
         path.lineTo(points.get(0).getX(), points.get(0).getY());
 
+        //Render complete path
         graphics2D.draw(path);
     }
 
+    /**
+     * Display list of faces in corners of triangle
+     * @param graphics2D - to display faces
+     * @param faces - to display
+     */
     private void displayFaces(Graphics2D graphics2D, ArrayList<Face> faces) {
+        //Display reference faces using flat shading and orthographic perspective to reduce execution time to render
         faces.get(0).display(graphics2D, Shading.FLAT, Projection.ORTHOGRAPHIC, focalLength, WIDTH, HEIGHT, -215, -300, 5);
         faces.get(1).display(graphics2D, Shading.FLAT, Projection.ORTHOGRAPHIC, focalLength, WIDTH, HEIGHT, 200, 100, 5);
         faces.get(2).display(graphics2D, Shading.FLAT, Projection.ORTHOGRAPHIC, focalLength, WIDTH, HEIGHT, -600, 100, 5);
     }
 
+    /**
+     * Listener for UI slider
+     */
     static class SliderListener implements ChangeListener {
+        /**
+         * Run if slider's state has been changed
+         * @param e - event to represent slider being adjusted
+         */
         public void stateChanged(ChangeEvent e) {
+            //Get value of slider
             JSlider source = (JSlider)e.getSource();
+            //If slider is not currently being adjusted
             if (!source.getValueIsAdjusting()) {
+                //Update value of focal length
+                // (scaled up by a factor of 10,000 to be of high enough precision when multiplying points)
                 focalLength = source.getValue() * 10000;
-                System.out.println(focalLength);
             }
         }
     }
