@@ -81,32 +81,13 @@ public class Face {
                  double height, double shiftX, double shiftY, double scale) {
         ArrayList<Triangle> trianglesToDisplay = (ArrayList<Triangle>) triangles.clone();
 
-        //Sort if not already sorted
-        System.out.println("Sorting!");
         //Sort triangles by average depth for use in painter's algorithm
         Collections.sort(trianglesToDisplay, new TriangleComparator());
-
-        normaliseZ(trianglesToDisplay);
 
         System.out.println("Size: " + trianglesToDisplay.size());
         //Draw each triangle
         for (Triangle t : trianglesToDisplay) {
-            t.draw(graphics2D, width, height, shading, projection, shiftX, shiftY, scale);
+            t.draw(graphics2D, width, height, shading, projection, focalLength, shiftX, shiftY, scale);
         }
-
-        //TODO - let user specify focal length of camera
-    }
-
-    private void normaliseZ(ArrayList<Triangle> triangles) {
-        double z_max = triangles.get(triangles.size() - 1).averageDepth();
-        double z_min = triangles.get(0).averageDepth();
-
-        for (Triangle t : triangles) {
-            double z = t.averageDepth();
-            for (Vertex v : t.vertices) {
-                v.z = (z - z_min) / (z_max - z_min);
-            }
-        }
-
     }
 }

@@ -43,10 +43,10 @@ public class Rendering extends JPanel {
 
     //Values for slider
     static final int MIN_FOCAL_LEN = 1;
-    static final int MAX_FOCAL_LEN = 100;
+    static final int MAX_FOCAL_LEN = 10;
 
     //Focal length
-    static int focalLength;
+    static int focalLength = MIN_FOCAL_LEN;
 
     static Rendering faceRendering;
 
@@ -122,7 +122,7 @@ public class Rendering extends JPanel {
         //Slider for specifying focal length
         JSlider focalLengthSlider = new JSlider(JSlider.HORIZONTAL, MIN_FOCAL_LEN, MAX_FOCAL_LEN, MIN_FOCAL_LEN);
         focalLengthSlider.addChangeListener(new SliderListener());
-        focalLengthSlider.setMajorTickSpacing(25);
+        focalLengthSlider.setMajorTickSpacing(1);
         focalLengthSlider.setPaintTicks(true);
         focalLengthSlider.setPaintLabels(true);
         display.panel.add(focalLengthSlider);
@@ -141,9 +141,9 @@ public class Rendering extends JPanel {
         display.frame.setVisible(true);
 
         //Define points of triangle to display:
-        trianglePoints.add(new Point2D.Double(display.getWidth() / 2.0, 200));
-        trianglePoints.add(new Point2D.Double(display.getWidth() / 8.0, display.getHeight() - 20));
-        trianglePoints.add(new Point2D.Double(display.getWidth() - (display.getWidth() / 8.0), display.getHeight() - 20));
+        trianglePoints.add(new Point2D.Double(display.getWidth() / 2.0, 150));
+        trianglePoints.add(new Point2D.Double(display.getWidth() / 8.0, display.getHeight() - 100));
+        trianglePoints.add(new Point2D.Double(display.getWidth() - (display.getWidth() / 8.0), display.getHeight() - 100));
 
         //Draws the frame
         display.repaint();
@@ -307,9 +307,9 @@ public class Rendering extends JPanel {
     }
 
     private void displayFaces(Graphics2D graphics2D, ArrayList<Face> faces) {
-        faces.get(0).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, -112, -255, 3.1);
-        faces.get(1).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, 300, 225, 3.1);
-        faces.get(2).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, -500, 225, 3.1);
+        faces.get(0).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, -195, -300, 2);
+        faces.get(1).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, 200, 100, 2);
+        faces.get(2).display(graphics2D, Shading.FLAT, projection, 1, WIDTH, HEIGHT, -600, 100, 2);
     }
 
     static class SliderListener implements ChangeListener {

@@ -65,7 +65,7 @@ public class Triangle {
     }
 
     //Draw the edges between the corners of the triangle in 2D
-    public void draw(Graphics2D graphics2D, double displayWidth, double displayHeight, Shading shading, Projection projection, double shiftX, double shiftY, double scale) {
+    public void draw(Graphics2D graphics2D, double displayWidth, double displayHeight, Shading shading, Projection projection, int focalLength, double shiftX, double shiftY, double scale) {
         ArrayList<Vertex> coords = new ArrayList<>();
 
         for (Vertex v : vertices) {
@@ -73,19 +73,23 @@ public class Triangle {
 
             vertex = new Vertex(v.x, v.y, v.z,v.r, v.g, v.b);
 
-            //TODO - change these functions to modify z value correctly
+            if (projection == Projection.PERSPECTIVE) {
+                //TODO - scale x and y properly using z
+               // vertex.x = focalLength * (vertex.x / (vertex.z));
+                //vertex.y = focalLength * (vertex.y / (vertex.z));
+
+                vertex.x = focalLength * (vertex.x / vertex.z);
+                vertex.y = focalLength * (vertex.y / vertex.z);
+            }
+
+
             //Flips image
             vertex.flip();
             //Scales image
-            vertex.scale(displayWidth * scale / 2, displayHeight * scale / 2);
+            vertex.scale((displayWidth / 16) * scale, (displayHeight / 9) * scale);
+
             //Centres image
             vertex.centre(displayWidth, displayHeight);
-
-
-
-            if (projection == Projection.PERSPECTIVE) {
-                //TODO - modify x and y by z
-            }
 
 
             //Shifts image by specified x and y (when displaying reference face)

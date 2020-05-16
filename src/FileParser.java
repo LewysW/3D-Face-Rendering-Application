@@ -20,11 +20,6 @@ public class FileParser {
         this.tx_EV = loadEVFile(tx_EV_File);
         this.averageShape = loadCSV("data/sh_" + averageFace + ".csv");
         this.averageTexture = loadCSV("data/tx_" + averageFace + ".csv");
-        System.out.println("Size of mesh indices: " + meshIndices.size());
-
-        System.out.println("Size of sh_EV: " + sh_EV.size());
-
-        //TODO - write function to parse face file
     }
 
     public ArrayList<ArrayList<Double>> loadCSV(String fileName) {
@@ -121,6 +116,62 @@ public class FileParser {
             triangles.add(triangle);
         }
 
+        normalise(triangles);
+
         return new Face(triangles);
+    }
+
+    /**
+     * Normalise x and y coords to be in range -1 to 1, and z coord to be in range 0 to 1
+     * @param triangles
+     */
+    void normalise(ArrayList<Triangle> triangles) {
+        double x_max = 0;
+        double x_min = 0;
+        double y_max = 0;
+        double y_min = 0;
+        double z_max = 0;
+        double z_min = 0;
+        double average;
+
+        //Calculate max and min for each coord
+        for (Triangle t : triangles) {
+            for (Vertex v : t.vertices) {
+                if (v.x > x_max) {
+                    x_max = v.x;
+                }
+
+                if (v.x < x_min) {
+                    x_min = v.x;
+                }
+
+                if (v.y > y_max) {
+                    y_max = v.y;
+                }
+
+                if (v.y < y_min) {
+                    y_min = v.y;
+                }
+
+                if ((average = t.averageDepth()) > z_max) {
+                    z_max = average;
+                }
+
+                if (average < z_min) {
+                    z_min = average;
+                }
+            }
+        }
+
+        //normalise coords using max and min values
+        for (Triangle t : triangles) {
+            double z = t.averageDepth();
+            for (Vertex v : t.vertices) {
+                v.x = 2 * (v.x - x_min) / (x_max - x_min) - 1;
+                v.y = 2 * (v.y - y_min) / (y_max - y_min) - 1;
+                v.z = (z - z_min) / (z_max - z_min);
+            }
+
+        }
     }
 }
