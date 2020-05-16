@@ -76,7 +76,7 @@ public class Triangle {
             vertex.z += focalLength;
 
             if (projection == Projection.PERSPECTIVE) {
-                System.out.println("f/z = r/R:" + focalLength + "/" + (vertex.z));
+               // System.out.println("f/z = r/R:" + focalLength + "/" + (vertex.z));
 
                 double x = vertex.x;
                 double y = vertex.y;
@@ -85,8 +85,8 @@ public class Triangle {
                 vertex.y = focalLength * (vertex.y / vertex.z);
 
 
-                scale = focalLength;
-                System.out.println("x/X = y/Y = r/R: " + vertex.x / x + " = " + vertex.y / y + " = " + (double) focalLength / vertex.z);
+                scale = (double) focalLength / 10000;
+               // System.out.println("x/X = y/Y = r/R: " + vertex.x / x + " = " + vertex.y / y + " = " + (double) focalLength / vertex.z);
             }
             //Flips image
             vertex.flip();

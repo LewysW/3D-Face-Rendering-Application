@@ -42,8 +42,8 @@ public class Rendering extends JPanel {
     static JRadioButton perspective = new JRadioButton("Perspective");
 
     //Values for slider
-    static final int MIN_FOCAL_LEN = 5;
-    static final int MAX_FOCAL_LEN = 10;
+    static final int MIN_FOCAL_LEN = 1;
+    static final int MAX_FOCAL_LEN = 25;
 
     //Focal length
     static int focalLength = MIN_FOCAL_LEN;
@@ -122,7 +122,7 @@ public class Rendering extends JPanel {
         //Slider for specifying focal length
         JSlider focalLengthSlider = new JSlider(JSlider.HORIZONTAL, MIN_FOCAL_LEN, MAX_FOCAL_LEN, MIN_FOCAL_LEN);
         focalLengthSlider.addChangeListener(new SliderListener());
-        focalLengthSlider.setMajorTickSpacing(10);
+        focalLengthSlider.setMajorTickSpacing(5);
         focalLengthSlider.setPaintTicks(true);
         focalLengthSlider.setPaintLabels(true);
         display.panel.add(focalLengthSlider);
@@ -214,9 +214,6 @@ public class Rendering extends JPanel {
 
                     //Sets frame to visible
                     faceRendering.frame.setVisible(true);
-
-                    //Sets resizable to false for the window
-                    faceRendering.frame.setResizable(false);
                 }
             }
         });
@@ -244,7 +241,7 @@ public class Rendering extends JPanel {
         //If frame is secondary frame
         } else if (syntheticFace != null) {
             System.out.println("Displaying synthetic face!");
-            syntheticFace.display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -200, -200, 10);
+            syntheticFace.display(graphics2D, shading, projection, focalLength, WIDTH, HEIGHT, -200, -250, 25);
         }
     }
 
@@ -316,7 +313,7 @@ public class Rendering extends JPanel {
         public void stateChanged(ChangeEvent e) {
             JSlider source = (JSlider)e.getSource();
             if (!source.getValueIsAdjusting()) {
-                focalLength = source.getValue();
+                focalLength = source.getValue() * 10000;
                 System.out.println(focalLength);
             }
         }
