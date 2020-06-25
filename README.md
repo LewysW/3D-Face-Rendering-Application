@@ -1,2 +1,2 @@
-# CS4102-P2-3D
-Second practical for CS4102 Computer Graphics to render faces in 3D
+# 3D Computer Graphics Face Modelling Program
+Renders 3D human faces given text files containing face shape and colour data
